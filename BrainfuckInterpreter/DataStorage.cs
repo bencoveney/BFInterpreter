@@ -1,29 +1,62 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace BrainfuckInterpreter
+﻿namespace BrainfuckInterpreter
 {
-    class DataStorage
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+
+    /// <summary>
+    /// Simulates a simple byte storage machine
+    /// </summary>
+    public class DataStorage
     {
+        /// <summary>
+        /// The data storage
+        /// </summary>
         private byte[] dataCells;
+
+        /// <summary>
+        /// The current location within the data storage
+        /// </summary>
         private int dataPointer;
 
-        public byte CurrentValue { get { return dataCells[dataPointer] } }
-
+        /// <summary>
+        /// Initializes a new instance of the DataStorage class
+        /// </summary>
         public DataStorage()
         {
             // Create the data cells and initialise them to 0
             // Assume 30000 bytes
-            dataCells = new byte[30000];
-            for(int i = 0; i < dataCells.Count(); i++)
+            this.dataCells = new byte[30000];
+            for (int i = 0; i < this.dataCells.Count(); i++)
             {
-                dataCells[i] = 0;
+                this.dataCells[i] = 0;
             }
 
             // Initialise the data pointer
-            dataPointer = 0;
+            this.dataPointer = 0;
+        }
+
+        /// <summary>
+        /// Gets the value of the currently selected byte
+        /// </summary>
+        public byte CurrentValue
+        {
+            get
+            {
+                return this.dataCells[this.dataPointer];
+            }
+        }
+
+        /// <summary>
+        /// Gets the location of the data pointer
+        /// </summary>
+        public int PointerLocation
+        {
+            get
+            {
+                return this.dataPointer;
+            }
         }
 
         /// <summary>
@@ -31,15 +64,15 @@ namespace BrainfuckInterpreter
         /// </summary>
         public void IncrementPointer()
         {
-            if (dataPointer + 1 < dataCells.Count())
+            if (this.dataPointer + 1 < this.dataCells.Count())
             {
                 // If we havent reached the right limit increment the pointer
-                dataPointer++;
+                this.dataPointer++;
             }
             else
             {
                 // If we have reached the right limit reset the pointers position
-                dataPointer = 0;
+                this.dataPointer = 0;
             }
         }
 
@@ -48,15 +81,15 @@ namespace BrainfuckInterpreter
         /// </summary>
         public void DecrementPointer()
         {
-            if (dataPointer - 1 > 0)
+            if (this.dataPointer - 1 >= 0)
             {
                 // If we havent reached the left limit decrement the pointer
-                dataPointer--;
+                this.dataPointer--;
             }
             else
             {
                 // if we have reached the left limit move to the end of the byte list
-                dataPointer = dataCells.Count();
+                this.dataPointer = this.dataCells.Count();
             }
         }
 
@@ -65,37 +98,42 @@ namespace BrainfuckInterpreter
         /// </summary>
         public void IncrementByte()
         {
-            if (CurrentValue + 1 <= byte.MaxValue)
+            if (this.dataCells[this.dataPointer] + 1 <= byte.MaxValue)
             {
                 // If we can increase the value then do so
-                dataCells[dataPointer]++;
+                this.dataCells[this.dataPointer]++;
             }
             else
             {
                 // If we are over the max value revert to 0
-                dataCells[dataPointer] = 0;
+                this.dataCells[this.dataPointer] = 0;
             }
         }
 
         /// <summary>
         /// Decreases the value of the byte at the 
         /// </summary>
-        public void DecrementByte() {
-            if (CurrentValue - 1 >= byte.MinValue)
+        public void DecrementByte()
+        {
+            if (this.dataCells[this.dataPointer] - 1 >= byte.MinValue)
             {
                 // If we can decrease the value then do so
-                dataCells[dataPointer]--;
+                this.dataCells[this.dataPointer]--;
             }
             else
             {
                 // If we are under the min value revert to the max value
-                dataCells[dataPointer] = byte.MaxValue;
+                this.dataCells[this.dataPointer] = byte.MaxValue;
             }
         }
 
-        public void SetByte(byte Input)
+        /// <summary>
+        /// Sets the value at the current location
+        /// </summary>
+        /// <param name="input">The value to assign</param>
+        public void SetByte(byte input)
         {
-            dataCells[dataPointer] = Input;
+            this.dataCells[this.dataPointer] = input;
         }
     }
 }

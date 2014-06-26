@@ -1,0 +1,4 @@
+F:\Code\BrainfuckInterpreter\BrainfuckInterpreter\bin\Debug\BrainfuckInterpreter.exe
+F:\Code\BrainfuckInterpreter\BrainfuckInterpreter\bin\Debug\BrainfuckInterpreter.pdb
+F:\Code\BrainfuckInterpreter\BrainfuckInterpreter\obj\x86\Debug\BrainfuckInterpreter.exe
+F:\Code\BrainfuckInterpreter\BrainfuckInterpreter\obj\x86\Debug\BrainfuckInterpreter.pdb
