@@ -60,6 +60,19 @@
         }
 
         /// <summary>
+        /// Gets the value at a specified location
+        /// </summary>
+        /// <param name="index">The memory location to read from</param>
+        /// <returns>The value from memory</returns>
+        public byte this[int index]
+        {
+            get
+            {
+                return this.dataCells[index];
+            }
+        }
+
+        /// <summary>
         /// Moves the data pointer to the cell to the right
         /// </summary>
         public void IncrementPointer()

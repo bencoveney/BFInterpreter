@@ -31,9 +31,26 @@
         /// <param name="program">the Brain-fuck instructions</param>
         public BFParser(string program)
         {
+            if(string.IsNullOrWhiteSpace(program)) throw new ArgumentNullException(program);
+
             this.program = program;
             this.Initialise();
         }
+
+        /// <summary>
+        /// Gets the program instructions
+        /// </summary>
+        public string Program { get { return this.program; } }
+
+        /// <summary>
+        /// Gets a pointer to the current instruction
+        /// </summary>
+        public int InstructionPointer { get { return this.instructionPointer; } }
+
+        /// <summary>
+        /// Gets the parser's storage machine
+        /// </summary>
+        public DataStorage StorageMachine { get { return this.storageMachine; } }
 
         /// <summary>
         /// Performs initialization logic necessary to correctly parse the instructions
@@ -44,6 +61,10 @@
             this.storageMachine = new DataStorage();
         }
 
+        /// <summary>
+        /// Runs the program
+        /// </summary>
+        /// <param name="isDebugMode">Should the program write debug info to the console</param>
         public void Run(bool isDebugMode)
         {
             // Initialise the parser
@@ -62,27 +83,27 @@
                     // Get the instruction
                     char currentInstruction = program[this.instructionPointer];
 
-                    // Display debug information
-                    if (isDebugMode)
-                    {
-                        // Display current instruction
-                        Console.WriteLine("Instruction {0}: {1}", instructionsProcessed++.ToString(), currentInstruction);
+                    //// Display debug information
+                    //if (isDebugMode)
+                    //{
+                    //    // Display current instruction
+                    //    Console.WriteLine("Instruction {0}: {1}", instructionsProcessed++.ToString(), currentInstruction);
 
-                        // Display the value at the instruction pointer
-                        Console.WriteLine("Value at {0} is {1}", storageMachine.PointerLocation, storageMachine.CurrentValue);
+                    //    // Display the value at the instruction pointer
+                    //    Console.WriteLine("Value at {0} is {1}", storageMachine.PointerLocation, storageMachine.CurrentValue);
 
-                        // Display location within program
-                        Console.WriteLine(program);
-                        for (int i = 0; i < instructionPointer; i++)
-                        {
-                            Console.Write(" ");
-                        }
-                        Console.WriteLine("^");
+                    //    // Display location within program
+                    //    Console.WriteLine(program);
+                    //    for (int i = 0; i < instructionPointer; i++)
+                    //    {
+                    //        Console.Write(" ");
+                    //    }
+                    //    Console.WriteLine("^");
 
-                        // Display a linebreak
-                        Console.WriteLine("-------------------------------------------------------------------------------------------------------------------------");
-                        Console.WriteLine();
-                    }
+                    //    // Display a linebreak
+                    //    Console.WriteLine("-------------------------------------------------------------------------------------------------------------------------");
+                    //    Console.WriteLine();
+                    //}
 
                     // Process the instruction
                     switch (currentInstruction)
@@ -109,7 +130,7 @@
 
                         case '.':
                             // Output the value
-                            this.Output();
+                            this.Output(isDebugMode);
                             break;
 
                         case ',':
@@ -149,6 +170,10 @@
             }
         }
 
+        /// <summary>
+        /// Finds the closing bracket that matches the opening bracket currently at the instruction pointer
+        /// </summary>
+        /// <returns>The index of the closing bracket</returns>
         private int GetClosingBracketIndex()
         {
             // Used to keep track of the depth of nesting of [] brackets
@@ -188,6 +213,10 @@
             throw new FormatException("Unmatched bracket");
         }
 
+        /// <summary>
+        /// Finds the opening bracket that matches the closing bracket currently at the instruction pointer
+        /// </summary>
+        /// <returns>The index of the closing bracket</returns>
         private int GetOpeningBracketIndex()
         {
             // Used to keep track of the depth of nesting of [] brackets
@@ -227,11 +256,12 @@
             throw new FormatException("Unmatched bracket");
 
         }
-
+        
         /// <summary>
         /// Outputs the storage machine's current value to the console
         /// </summary>
-        private void Output()
+        /// <param name="isDebugMode">Should the program write debug info to the console</param>
+        private void Output(bool isDebugMode)
         {
             // Get the current byte
             byte output = this.storageMachine.CurrentValue;
@@ -240,18 +270,29 @@
             byte[] outputArray = new byte[1] { output };
             string outputUFT8 = System.Text.Encoding.UTF8.GetString(outputArray);
 
-            // Format the output and write it to console
-            string outputString = string.Format("{0}, {1}", output.ToString().PadLeft(3, '0'), outputUFT8);
-            Console.WriteLine(outputString);
+            if (!isDebugMode)
+            {
+                // Write the character to console
+                Console.Write(outputUFT8);
+            }
+            else
+            {
+                // Format the output and write it to console
+                string outputString = string.Format("{0}, {1}", output.ToString().PadLeft(3, '0'), outputUFT8);
+                Console.WriteLine(outputString);
+            }
         }
 
+        /// <summary>
+        /// Reads input from the console
+        /// </summary>
         private void Input()
         {
             string input = "";
             while (!isValidByte(input))
             {
                 Console.WriteLine("Input a valid byte:");
-                input = Console.ReadLine();
+                input = Console.In.ReadToEnd();
             }
         }
 

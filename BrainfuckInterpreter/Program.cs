@@ -18,7 +18,7 @@
         {
             Console.SetWindowSize(160, 60);
             BFParser parser = new BFParser("++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.");
-            parser.Run(false);
+            parser.Run(true);
             Console.Read();
         }
     }
