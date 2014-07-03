@@ -83,27 +83,27 @@
                     // Get the instruction
                     char currentInstruction = program[this.instructionPointer];
 
-                    //// Display debug information
-                    //if (isDebugMode)
-                    //{
-                    //    // Display current instruction
-                    //    Console.WriteLine("Instruction {0}: {1}", instructionsProcessed++.ToString(), currentInstruction);
+                    // Display debug information
+                    if (isDebugMode)
+                    {
+                        // Display current instruction
+                        Console.WriteLine("Instruction {0}: {1}", instructionsProcessed++.ToString(), currentInstruction);
 
-                    //    // Display the value at the instruction pointer
-                    //    Console.WriteLine("Value at {0} is {1}", storageMachine.PointerLocation, storageMachine.CurrentValue);
+                        // Display the value at the instruction pointer
+                        Console.WriteLine("Value at {0} is {1}", storageMachine.PointerLocation, storageMachine.CurrentValue);
 
-                    //    // Display location within program
-                    //    Console.WriteLine(program);
-                    //    for (int i = 0; i < instructionPointer; i++)
-                    //    {
-                    //        Console.Write(" ");
-                    //    }
-                    //    Console.WriteLine("^");
+                        // Display location within program
+                        Console.WriteLine(program);
+                        for (int i = 0; i < instructionPointer; i++)
+                        {
+                            Console.Write(" ");
+                        }
+                        Console.WriteLine("^");
 
-                    //    // Display a linebreak
-                    //    Console.WriteLine("-------------------------------------------------------------------------------------------------------------------------");
-                    //    Console.WriteLine();
-                    //}
+                        // Display a linebreak
+                        Console.WriteLine("-------------------------------------------------------------------------------------------------------------------------");
+                        Console.WriteLine();
+                    }
 
                     // Process the instruction
                     switch (currentInstruction)
